@@ -5,6 +5,9 @@ import About from "../pages/About";
 import Profile from "../pages/Profile";
 import Login from "../components/Login";
 import Register from "../components/Register";
+import AllIssue from "../components/AllIssue";
+import IssueDetails from "../components/IssueDetails";
+import PrivateRoute from "./PrivateRoute";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +33,18 @@ const router = createBrowserRouter([
       {
         path: "register",
         Component: Register,
+      },
+      {
+        path: "allIssue",
+        loader:()=>fetch('http://localhost:3000/issue'),
+        Component: AllIssue,
+      },
+      {
+        path: "/issueDetails/:id",
+        loader:({params})=>fetch(`http://localhost:3000/issue/${params.id}`),
+        element: <PrivateRoute>
+          <IssueDetails></IssueDetails>
+        </PrivateRoute>
       },
     ],
   },
