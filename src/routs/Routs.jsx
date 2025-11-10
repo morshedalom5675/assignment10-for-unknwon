@@ -3,11 +3,12 @@ import MainLayout from "../layout/MainLayout";
 import Home from "../pages/Home";
 import About from "../pages/About";
 import Profile from "../pages/Profile";
-import Login from "../components/Login";
-import Register from "../components/Register";
-import AllIssue from "../components/AllIssue";
+import Login from "../pages/Login";
+import Register from "../pages/Register";
+import AllIssue from "../pages/AllIssue";
 import IssueDetails from "../components/IssueDetails";
 import PrivateRoute from "./PrivateRoute";
+import ReportIssue from "../pages/ReportIssue";
 
 const router = createBrowserRouter([
   {
@@ -36,15 +37,26 @@ const router = createBrowserRouter([
       },
       {
         path: "allIssue",
-        loader:()=>fetch('http://localhost:3000/issue'),
+        loader: () => fetch("http://localhost:3000/issue"),
         Component: AllIssue,
       },
       {
         path: "/issueDetails/:id",
-        loader:({params})=>fetch(`http://localhost:3000/issue/${params.id}`),
-        element: <PrivateRoute>
-          <IssueDetails></IssueDetails>
-        </PrivateRoute>
+        loader: ({ params }) =>
+          fetch(`http://localhost:3000/issue/${params.id}`),
+        element: (
+          <PrivateRoute>
+            <IssueDetails></IssueDetails>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "addIssue",
+        element: (
+          <PrivateRoute>
+            <ReportIssue></ReportIssue>
+          </PrivateRoute>
+        ),
       },
     ],
   },

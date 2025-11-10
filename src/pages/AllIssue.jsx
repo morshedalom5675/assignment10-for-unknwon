@@ -1,6 +1,6 @@
 import React from "react";
 import { useLoaderData } from "react-router";
-import IssueCard from "./IssueCard";
+import IssueCard from "../components/IssueCard";
 
 const AllIssue = () => {
   const data = useLoaderData();

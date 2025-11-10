@@ -5,8 +5,8 @@ import { toast } from "react-toastify";
 import { AuthContext } from "../context/AuthContext";
 
 const Register = () => {
-    const [showPassword, setShowPassword] = useState(false);
-     const { createUser, updateUserProfile, signInWithGoogle } = use(AuthContext);
+  const [showPassword, setShowPassword] = useState(false);
+  const { createUser, updateUserProfile, signInWithGoogle } = use(AuthContext);
   const navigate = useNavigate();
 
   const handleRegister = (event) => {
@@ -16,12 +16,12 @@ const Register = () => {
     const email = event.target.email.value;
     const password = event.target.password.value;
 
-
     createUser(email, password)
       .then((result) => {
         console.log(result.user);
         updateUserProfile(displayName, photoURL);
         toast.success("User created successfully!");
+        navigate("/");
       })
       .catch((error) => {
         console.log(error);
@@ -34,6 +34,7 @@ const Register = () => {
     signInWithGoogle()
       .then((result) => {
         toast.success("User created successfully!");
+        navigate("/");
         console.log(result.user);
         // navigate("/");
       })
@@ -42,7 +43,6 @@ const Register = () => {
         toast.error(error.message);
       });
   };
-
 
   return (
     <div className=" py-10 min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center px-4">
@@ -154,7 +154,10 @@ const Register = () => {
         </div>
 
         {/* Google Sign In */}
-        <button onClick={handleGoogleSignIn} className="w-full border border-gray-300 py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-50 transition">
+        <button
+          onClick={handleGoogleSignIn}
+          className="w-full border border-gray-300 py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-50 transition"
+        >
           <img
             src="https://www.svgrepo.com/show/475656/google-color.svg"
             alt="google"

@@ -1,0 +1,183 @@
+import React, { use } from "react";
+import {
+  MapPin,
+  Image as ImageIcon,
+  FileText,
+  Coins,
+  CalendarDays,
+} from "lucide-react";
+import { AuthContext } from "../context/AuthContext";
+import { toast } from "react-toastify";
+
+const ReportIssue = () => {
+  const { user } = use(AuthContext);
+  const handleReportSubmit = (e) => {
+    e.preventDefault();
+    const newReport = {
+      title: e.target.title.value,
+      category: e.target.category.value,
+      location: e.target.location.value,
+      description: e.target.description.value,
+      image: e.target.image.value,
+      amount: e.target.amount.value,
+      email: user?.email,
+      date: new Date().toISOString().split("T")[0],
+    };
+    // console.log({newReport})
+    fetch("http://localhost:3000/issue", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(newReport),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        toast.success("Successfully added your report");
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(err.message);
+      });
+  };
+  return (
+    <section className="max-w-3xl mx-auto my-16 p-8 bg-white shadow-xl rounded-2xl">
+      <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">
+        Report a Community Issue
+      </h2>
+
+      <form onSubmit={handleReportSubmit} className="space-y-5">
+        {/* Issue Title */}
+        <div>
+          <label className="block text-gray-700 font-medium mb-1">
+            Issue Title
+          </label>
+          <input
+            name="title"
+            type="text"
+            placeholder="e.g. Overflowing garbage on Road 21"
+            className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 outline-none"
+            required
+          />
+        </div>
+
+        {/* Category */}
+        <div>
+          <label className="block text-gray-700 font-medium mb-1">
+            Category
+          </label>
+          <select
+            name="category"
+            className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 outline-none"
+            required
+          >
+            <option>Select Category</option>
+            <option>Garbage</option>
+            <option>Drainage</option>
+            <option>Waterlogging</option>
+            <option>Infrastructure</option>
+          </select>
+        </div>
+
+        {/* Location */}
+        <div className="relative">
+          <label className="block text-gray-700 font-medium mb-1">
+            Location
+          </label>
+          <div className="flex items-center border border-gray-300 rounded-xl">
+            <MapPin className="ml-3 text-green-600" size={20} />
+            <input
+              name="location"
+              type="text"
+              placeholder="e.g. Mohakhali, Dhaka"
+              className="w-full p-3 outline-none rounded-xl"
+              required
+            />
+          </div>
+        </div>
+
+        {/* Description */}
+        <div>
+          <label className="block text-gray-700 font-medium mb-1">
+            Description
+          </label>
+          <textarea
+            name="description"
+            rows="4"
+            placeholder="Describe the issue in detail..."
+            className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 outline-none"
+            required
+          ></textarea>
+        </div>
+
+        {/* Image */}
+        <div className="relative">
+          <label className="block text-gray-700 font-medium mb-1">
+            Image URL
+          </label>
+          <div className="flex items-center border border-gray-300 rounded-xl">
+            <ImageIcon className="ml-3 text-blue-600" size={20} />
+            <input
+              name="image"
+              type="url"
+              placeholder="https://example.com/image.jpg"
+              className="w-full p-3 outline-none rounded-xl"
+              required
+            />
+          </div>
+        </div>
+
+        {/* Amount */}
+        <div className="relative">
+          <label className="block text-gray-700 font-medium mb-1">
+            Suggested Fix Budget (৳)
+          </label>
+          <div className="flex items-center border border-gray-300 rounded-xl">
+            <Coins className="ml-3 text-yellow-500" size={20} />
+            <input
+              name="amount"
+              type="number"
+              placeholder="Enter estimated cost"
+              className="w-full p-3 outline-none rounded-xl"
+              required
+            />
+          </div>
+        </div>
+
+        {/* Email (readonly) */}
+        <div>
+          <label className="block text-gray-700 font-medium mb-1">
+            Reporter Email
+          </label>
+          <input
+            type="email"
+            readOnly
+            value={user?.email}
+            className="w-full p-3 border border-gray-300 rounded-xl bg-gray-100 cursor-not-allowed"
+          />
+        </div>
+
+        {/* Status & Date
+        <div className="flex flex-col sm:flex-row justify-between gap-4 text-gray-700 text-sm">
+          <p>
+            <span className="font-semibold">Status:</span> Ongoing
+          </p>
+          <p className="flex items-center gap-1">
+            <CalendarDays size={18} className="text-green-600" /> {new Date().toISOString().split("T")[0]}
+          </p>
+        </div> */}
+
+        {/* Submit Button */}
+        <button
+          type="submit"
+          className="w-full mt-4 bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-xl transition-colors"
+        >
+          Submit Issue
+        </button>
+      </form>
+    </section>
+  );
+};
+
+export default ReportIssue;
