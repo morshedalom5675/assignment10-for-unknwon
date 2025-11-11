@@ -13,7 +13,7 @@ import { useNavigate } from "react-router";
 
 const ReportIssue = () => {
   const { user } = use(AuthContext);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const handleReportSubmit = (e) => {
     e.preventDefault();
     const newReport = {
@@ -24,6 +24,7 @@ const ReportIssue = () => {
       image: e.target.image.value,
       amount: e.target.amount.value,
       email: user?.email,
+      state: "Ongoing",
       date: new Date().toISOString().split("T")[0],
     };
     // console.log({newReport})
@@ -38,13 +39,13 @@ const ReportIssue = () => {
       .then((data) => {
         console.log(data);
         if (data.insertedId) {
-                  navigate('/')
-                  Swal.fire({
-                    title: "Thanks for your report, we will try solve this",
-                    icon: "success",
-                    draggable: true,
-                  });
-                }
+          navigate("/");
+          Swal.fire({
+            title: "Thanks for your report, we will try solve this",
+            icon: "success",
+            draggable: true,
+          });
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -168,15 +169,9 @@ const ReportIssue = () => {
           />
         </div>
 
-        {/* Status & Date
-        <div className="flex flex-col sm:flex-row justify-between gap-4 text-gray-700 text-sm">
-          <p>
-            <span className="font-semibold">Status:</span> Ongoing
-          </p>
-          <p className="flex items-center gap-1">
-            <CalendarDays size={18} className="text-green-600" /> {new Date().toISOString().split("T")[0]}
-          </p>
-        </div> */}
+        <p className="text-gray-700 text-sm">
+          <span className="font-semibold">Status:</span> Ongoing
+        </p>
 
         {/* Submit Button */}
         <button

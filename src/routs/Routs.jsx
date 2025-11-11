@@ -10,12 +10,14 @@ import IssueDetails from "../components/IssueDetails";
 import PrivateRoute from "./PrivateRoute";
 import ReportIssue from "../pages/ReportIssue";
 import LoadingSpinner from "../components/LoadingSpinner";
+import MyIssues from "../pages/MyIssues";
+import MyContribution from "../pages/MyContribution";
 
 const router = createBrowserRouter([
   {
     path: "/",
     Component: MainLayout,
-    hydrateFallbackElement:<LoadingSpinner></LoadingSpinner>,
+    hydrateFallbackElement: <LoadingSpinner></LoadingSpinner>,
     children: [
       {
         index: true,
@@ -49,6 +51,22 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <IssueDetails></IssueDetails>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "myIssue",
+        element: (
+          <PrivateRoute>
+            <MyIssues></MyIssues>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "myContribution",
+        element: (
+          <PrivateRoute>
+            <MyContribution></MyContribution>
           </PrivateRoute>
         ),
       },

@@ -45,6 +45,12 @@ const Navbar = () => {
               <li>
                 <NavLink to="/addIssue">Add Issue</NavLink>
               </li>
+              <li>
+                <NavLink to="/myIssue">My Issue</NavLink>
+              </li>
+              <li>
+                <NavLink to="/myContribution">My Contribution</NavLink>
+              </li>
             </ul>
           </div>
           <Leaf className="w-6 h-6 text-green-600 mr-1" />
@@ -67,6 +73,12 @@ const Navbar = () => {
             </li>
             <li>
               <NavLink to="/addIssue">Add Issue</NavLink>
+            </li>
+            <li>
+              <NavLink to="/myIssue">My Issue</NavLink>
+            </li>
+            <li>
+              <NavLink to="/myContribution">My Contribution</NavLink>
             </li>
           </ul>
         </div>
