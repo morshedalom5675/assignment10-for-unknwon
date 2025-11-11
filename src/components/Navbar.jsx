@@ -3,6 +3,7 @@ import { FaGear, FaUser } from "react-icons/fa6";
 import { IoLogIn, IoLogOut } from "react-icons/io5";
 import { Link, NavLink } from "react-router";
 import { AuthContext } from "../context/AuthContext";
+import { Leaf } from "lucide-react";
 
 const Navbar = () => {
   const { user, signOutUser } = use(AuthContext);
@@ -46,8 +47,9 @@ const Navbar = () => {
               </li>
             </ul>
           </div>
-          {/* <a className="btn btn-ghost text-xl">daisyUI</a> */}
-          <img  className="h-10 w-28" src="/public/logo.png" alt="" />
+          <Leaf className="w-6 h-6 text-green-600 mr-1" />
+
+          <h2 className="text-2xl font-bold text-green-700">CleanTrack</h2>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
@@ -124,8 +126,8 @@ const Navbar = () => {
             </div>
           ) : (
             <Link
-                to={"/login"}
-                className="btn bg-green-500 hover:bg-green-600 text-white font-semibold btn-sm rounded-full shadow-lg transition-transform transform hover:scale-105"
+              to={"/login"}
+              className="btn bg-green-500 hover:bg-green-600 text-white font-semibold btn-sm rounded-full shadow-lg transition-transform transform hover:scale-105"
             >
               {" "}
               <IoLogIn /> Login

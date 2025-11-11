@@ -9,11 +9,13 @@ import AllIssue from "../pages/AllIssue";
 import IssueDetails from "../components/IssueDetails";
 import PrivateRoute from "./PrivateRoute";
 import ReportIssue from "../pages/ReportIssue";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const router = createBrowserRouter([
   {
     path: "/",
     Component: MainLayout,
+    hydrateFallbackElement:<LoadingSpinner></LoadingSpinner>,
     children: [
       {
         index: true,

@@ -1,14 +1,14 @@
-
 import React, { use, useState } from "react";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { Link, useNavigate } from "react-router";
 import { AuthContext } from "../context/AuthContext";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { signInUser, signInWithGoogle } = use(AuthContext);
 
-//   const location = useLocation();
+  //   const location = useLocation();
   const navigate = useNavigate();
   console.log(location);
 
@@ -22,9 +22,11 @@ const Login = () => {
       .then((result) => {
         console.log(result.user);
         event.target.reset();
+        toast.success("Login Successful");
         navigate(location.state || "/");
       })
       .catch((error) => {
+        toast.error(error.message);
         console.log(error);
       });
   };
@@ -33,9 +35,11 @@ const Login = () => {
     signInWithGoogle()
       .then((result) => {
         console.log(result.user);
+        toast.success("Login Successful");
         navigate(location?.state || "/");
       })
       .catch((error) => {
+        toast.error(error.message);
         console.log(error);
       });
   };
@@ -116,7 +120,10 @@ const Login = () => {
         </div>
 
         {/* Google Sign In */}
-        <button onClick={handleGoogleSignIn} className="w-full border border-gray-300 py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-50 transition">
+        <button
+          onClick={handleGoogleSignIn}
+          className="w-full border border-gray-300 py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-50 transition"
+        >
           <img
             src="https://www.svgrepo.com/show/475656/google-color.svg"
             alt="google"

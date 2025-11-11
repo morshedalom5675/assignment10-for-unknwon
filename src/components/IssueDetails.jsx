@@ -1,13 +1,13 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useLoaderData, Link } from "react-router";
 
 const IssueDetails = () => {
-  const issue = useLoaderData(); 
-  console.log(issue);
+  const issue = useLoaderData();
+  const modalRef = useRef(null);
+  // console.log(issue);
 
-
-
-  const { title, category, location, description, image, date, amount, _id } = issue;
+  const { title, category, location, description, image, date, amount, _id } =
+    issue;
 
   return (
     <section className="container mx-auto px-4 py-16">
@@ -56,7 +56,9 @@ const IssueDetails = () => {
 
           {/* Description */}
           <div className="bg-white p-6 rounded-2xl shadow-md">
-            <h2 className="text-xl font-semibold text-gray-800 mb-2">Description</h2>
+            <h2 className="text-xl font-semibold text-gray-800 mb-2">
+              Description
+            </h2>
             <p className="text-gray-600">{description}</p>
           </div>
 
@@ -69,11 +71,30 @@ const IssueDetails = () => {
               ← Back to All Issues
             </Link>
             <button
+              onClick={() => modalRef.current.showModal()}
               className="flex-1 text-center px-4 py-3 rounded-xl bg-green-600 text-white font-medium hover:bg-green-700 transition-colors"
-              onClick={() => alert(`Paying ৳${amount} for clean-up contribution`)}
             >
               Pay Clean-Up Contribution
             </button>
+
+            <dialog
+              ref={modalRef}
+              id="my_modal_5"
+              className="modal modal-bottom sm:modal-middle"
+            >
+              <div className="modal-box">
+                <h3 className="font-bold text-lg">Hello!</h3>
+                <p className="py-4">
+                  Press ESC key or click the button below to close
+                </p>
+                <div className="modal-action">
+                  <form method="dialog">
+                    {/* if there is a button in form, it will close the modal */}
+                    <button className="btn">Close</button>
+                  </form>
+                </div>
+              </div>
+            </dialog>
           </div>
         </div>
       </div>

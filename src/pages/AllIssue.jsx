@@ -1,9 +1,15 @@
-import React from "react";
+import React, { use } from "react";
 import { useLoaderData } from "react-router";
 import IssueCard from "../components/IssueCard";
+import { AuthContext } from "../context/AuthContext";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const AllIssue = () => {
   const data = useLoaderData();
+  const { loading } = use(AuthContext);
+  if (loading) {
+    <LoadingSpinner></LoadingSpinner>
+  }
 
   return (
     <section className="container mx-auto px-4 py-16">
