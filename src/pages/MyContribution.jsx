@@ -1,7 +1,19 @@
-import React from "react";
+import React, { use, useEffect, useState } from "react";
 import { FileDown } from "lucide-react";
+import { AuthContext } from "../context/AuthContext";
 
 const MyContribution = () => {
+  const { user } = use(AuthContext);
+  const [myContribution, setMyContribution] = useState([]);
+  useEffect(() => {
+    fetch(`http://localhost:3000/contributes?${user?.email}`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setMyContribution(data);
+      });
+  }, [user]);
+
   return (
     <section className="container mx-auto px-4 py-12">
       {/* 🔹 Page Header */}
@@ -9,6 +21,7 @@ const MyContribution = () => {
         <h1 className="text-4xl font-bold text-green-700">My Contributions</h1>
         <p className="text-gray-500 mt-2 text-sm sm:text-base">
           Track your cleanup contribution payments and download reports anytime.
+          {myContribution.length}
         </p>
       </div>
 
@@ -29,37 +42,26 @@ const MyContribution = () => {
           </thead>
 
           {/* Table Body (Dummy Data) */}
-          <tbody>
-            <tr className="hover:bg-green-50">
-              <td className="py-3 px-4 font-semibold text-gray-800">
-                Street Cleaning Drive
-              </td>
-              <td className="py-3 px-4 text-gray-700">Cleanliness</td>
-              <td className="py-3 px-4 text-green-700 font-medium">৳500</td>
-              <td className="py-3 px-4 text-gray-700">2025-11-08</td>
-              <td className="py-3 px-4 text-center">
-                <button className="btn btn-sm bg-blue-500 hover:bg-blue-600 text-white gap-2">
-                  <FileDown size={16} />
-                  Download
-                </button>
-              </td>
-            </tr>
-
-            <tr className="hover:bg-green-50">
-              <td className="py-3 px-4 font-semibold text-gray-800">
-                Park Waste Removal
-              </td>
-              <td className="py-3 px-4 text-gray-700">Garbage</td>
-              <td className="py-3 px-4 text-green-700 font-medium">৳800</td>
-              <td className="py-3 px-4 text-gray-700">2025-10-29</td>
-              <td className="py-3 px-4 text-center">
-                <button className="btn btn-sm bg-blue-500 hover:bg-blue-600 text-white gap-2">
-                  <FileDown size={16} />
-                  Download
-                </button>
-              </td>
-            </tr>
-          </tbody>
+          {myContribution.map((table) => (
+            <tbody>
+              <tr className="hover:bg-green-50">
+                <td className="py-3 px-4 font-semibold text-gray-800">
+                  {table.title}
+                </td>
+                <td className="py-3 px-4 text-gray-700">{table.category}</td>
+                <td className="py-3 px-4 text-green-700 font-medium">
+                  ৳{table.amount}
+                </td>
+                <td className="py-3 px-4 text-gray-700">{table.date}</td>
+                <td className="py-3 px-4 text-center">
+                  <button className="btn btn-sm bg-blue-500 hover:bg-blue-600 text-white gap-2">
+                    <FileDown size={16} />
+                    Download
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          ))}
         </table>
 
         {/* Empty State */}

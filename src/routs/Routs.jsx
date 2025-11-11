@@ -12,12 +12,14 @@ import ReportIssue from "../pages/ReportIssue";
 import LoadingSpinner from "../components/LoadingSpinner";
 import MyIssues from "../pages/MyIssues";
 import MyContribution from "../pages/MyContribution";
+import ErrorPage from "../pages/ErrorPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
     Component: MainLayout,
     hydrateFallbackElement: <LoadingSpinner></LoadingSpinner>,
+    errorElement:<ErrorPage></ErrorPage>,
     children: [
       {
         index: true,
