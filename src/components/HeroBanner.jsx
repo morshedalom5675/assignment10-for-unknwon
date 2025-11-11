@@ -23,7 +23,7 @@ const HeroBanner = () => {
           buttons: (
             <div className="flex flex-wrap gap-4">
               <Link
-                to="/report"
+                to="/addIssue"
                 className="btn bg-green-500 hover:bg-green-600 text-white font-semibold"
               >
                 <Search size={18} className="mr-2" />
@@ -70,7 +70,7 @@ const HeroBanner = () => {
             "Let’s rebuild our environment — one report at a time.",
           buttons: (
             <Link
-              to="/issues"
+              to="/allIssue"
               className="btn btn-outline border-white text-white hover:bg-white hover:text-green-700"
             >
               View Issues

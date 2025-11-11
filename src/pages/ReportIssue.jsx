@@ -8,9 +8,12 @@ import {
 } from "lucide-react";
 import { AuthContext } from "../context/AuthContext";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router";
 
 const ReportIssue = () => {
   const { user } = use(AuthContext);
+  const navigate = useNavigate()
   const handleReportSubmit = (e) => {
     e.preventDefault();
     const newReport = {
@@ -33,8 +36,15 @@ const ReportIssue = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        toast.success("Successfully added your report");
         console.log(data);
+        if (data.insertedId) {
+                  navigate('/')
+                  Swal.fire({
+                    title: "Thanks for your report, we will try solve this",
+                    icon: "success",
+                    draggable: true,
+                  });
+                }
       })
       .catch((err) => {
         console.log(err);

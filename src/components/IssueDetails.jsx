@@ -1,13 +1,65 @@
-import React, { useRef } from "react";
-import { useLoaderData, Link } from "react-router";
+import React, { use, useEffect, useRef, useState } from "react";
+import { useLoaderData, Link, useParams } from "react-router";
+import { AuthContext } from "../context/AuthContext";
+import Swal from "sweetalert2";
 
 const IssueDetails = () => {
+  const { user } = use(AuthContext);
+  const { id: issueId } = useParams();
   const issue = useLoaderData();
   const modalRef = useRef(null);
-  // console.log(issue);
+  const [contributes, setContributes] = useState([]);
+  
 
   const { title, category, location, description, image, date, amount, _id } =
     issue;
+
+  const contributionSubmit = (e) => {
+    e.preventDefault();
+    const name = e.target.name.value;
+    const amount = e.target.amount.value;
+    const phone = e.target.phone.value;
+    const address = e.target.address.value;
+    const newContributor = {
+      issue: issueId,
+      title: title,
+      contributor_name: name,
+      contributor_email: user?.email,
+      contributor_phone: phone,
+      contributor_image: user?.photoURL,
+      amount: amount,
+      address: address,
+      date: new Date().toISOString().split("T")[0],
+    };
+    fetch("http://localhost:3000/contributes", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(newContributor),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.insertedId) {
+          modalRef.current.close();
+          Swal.fire({
+            title: "Thanks for your contribution 👌",
+            icon: "success",
+            draggable: true,
+          });
+        }
+      });
+  };
+
+  useEffect(() => {
+    fetch(`http://localhost:3000/issue/contributes/${issueId}`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setContributes(data);
+      });
+  }, [issueId]);
 
   return (
     <section className="container mx-auto px-4 py-16">
@@ -70,6 +122,8 @@ const IssueDetails = () => {
             >
               ← Back to All Issues
             </Link>
+
+            {/* open modal */}
             <button
               onClick={() => modalRef.current.showModal()}
               className="flex-1 text-center px-4 py-3 rounded-xl bg-green-600 text-white font-medium hover:bg-green-700 transition-colors"
@@ -82,21 +136,181 @@ const IssueDetails = () => {
               id="my_modal_5"
               className="modal modal-bottom sm:modal-middle"
             >
-              <div className="modal-box">
-                <h3 className="font-bold text-lg">Hello!</h3>
-                <p className="py-4">
-                  Press ESC key or click the button below to close
-                </p>
-                <div className="modal-action">
-                  <form method="dialog">
-                    {/* if there is a button in form, it will close the modal */}
-                    <button className="btn">Close</button>
+              {/* modal form */}
+              <div className="modal-box max-h-[90vh] overflow-y-auto">
+                <div className="max-w-xl mx-auto bg-white shadow-lg rounded-2xl p-8 border">
+                  <h2 className="text-3xl font-bold text-center text-green-700 mb-6">
+                    Contribute to a Clean-up
+                  </h2>
+
+                  <form onSubmit={contributionSubmit} className="space-y-5">
+                    {/* Issue Title */}
+                    <div>
+                      <label className="block text-gray-700 font-medium mb-1">
+                        Issue Title
+                      </label>
+                      <input
+                        value={title}
+                        type="text"
+                        placeholder="Enter issue title"
+                        className="w-full p-3 border border-gray-300 rounded-xl bg-gray-100 cursor-not-allowed"
+                        readOnly
+                      />
+                    </div>
+
+                    {/* Amount */}
+                    <div>
+                      <label className="block text-gray-700 font-medium mb-1">
+                        Amount
+                      </label>
+                      <input
+                        name="amount"
+                        type="number"
+                        placeholder="Enter contribution amount"
+                        className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 outline-none"
+                        // required
+                      />
+                    </div>
+
+                    {/* Contributor Name */}
+                    <div>
+                      <label className="block text-gray-700 font-medium mb-1">
+                        Contributor Name
+                      </label>
+                      <input
+                        name="name"
+                        type="text"
+                        placeholder="Enter your name"
+                        className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 outline-none"
+                        // required
+                      />
+                    </div>
+
+                    {/* Email */}
+                    <div>
+                      <label className="block text-gray-700 font-medium mb-1">
+                        Email
+                      </label>
+                      <input
+                        type="email"
+                        readOnly
+                        value={user?.email}
+                        className="w-full p-3 border border-gray-300 rounded-xl bg-gray-100 cursor-not-allowed"
+                      />
+                    </div>
+
+                    {/* Phone */}
+                    <div>
+                      <label className="block text-gray-700 font-medium mb-1">
+                        Phone Number
+                      </label>
+                      <input
+                        name="phone"
+                        type="tel"
+                        placeholder="Enter phone number"
+                        className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 outline-none"
+                        // required
+                      />
+                    </div>
+
+                    {/* Address */}
+                    <div>
+                      <label className="block text-gray-700 font-medium mb-1">
+                        Address
+                      </label>
+                      <input
+                        name="address"
+                        type="text"
+                        placeholder="Enter your address"
+                        className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 outline-none"
+                        // required
+                      />
+                    </div>
+
+                    {/* Submit Button */}
+                    <button
+                      type="submit"
+                      className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-xl transition duration-300"
+                    >
+                      Confirm Contribution
+                    </button>
                   </form>
                 </div>
               </div>
+
+              <form method="dialog" className="modal-backdrop">
+                <button>close</button>
+              </form>
             </dialog>
           </div>
         </div>
+      </div>
+
+      {/* issue contribution table */}
+      <div className="overflow-x-auto my-20">
+        <div className="text-center mb-10">
+        <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-800 relative inline-block">
+          <span className="bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
+            People contributes to this issue : {contributes.length}
+          </span>
+          <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-16 h-[3px] bg-green-500 rounded-full mt-2"></span>
+        </h2>
+       
+      </div>
+        <table className="table">
+          {/* head */}
+          <thead>
+            <tr>
+              <th>SL.</th>
+              <th>Name</th>
+              <th>Email & Number</th>
+              <th>Contributing Price</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {/* row 1 */}
+            {contributes.map((contribute, index) => (
+              <tr>
+                <th>{index + 1}</th>
+                <td>
+                  <div className="flex items-center gap-3">
+                    <div className="avatar">
+                      <div className="mask mask-squircle h-12 w-12">
+                        <img
+                          src={
+                            contribute.contributor_image ||
+                            "https://img.daisyui.com/images/profile/demo/2@94.webp"
+                          }
+                          alt="Avatar Tailwind CSS Component"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <div className="font-bold">
+                        {contribute.contributor_name}
+                      </div>
+                      <div className="text-sm opacity-50">
+                        {contribute.address}
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  {contribute.contributor_email}
+                  <br />
+                  <span className="badge badge-ghost badge-sm">
+                    {contribute.contributor_phone}
+                  </span>
+                </td>
+                <td>{contribute.amount}</td>
+                <th>
+                  <button className="btn btn-ghost btn-xs">details</button>
+                </th>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </section>
   );
