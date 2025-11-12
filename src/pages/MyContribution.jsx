@@ -16,6 +16,7 @@ const MyContribution = () => {
 
   return (
     <section className="container mx-auto px-4 py-12">
+      <title>CleanTrack || My Contribution</title>
       {/* 🔹 Page Header */}
       <div className="text-center mb-10">
         <h1 className="text-4xl font-bold text-green-700">My Contributions</h1>

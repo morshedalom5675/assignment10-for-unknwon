@@ -5,6 +5,7 @@ import { Link } from "react-router";
 const ErrorPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-blue-50 flex flex-col items-center justify-center text-center px-4">
+      <title>Error</title>
       <div className="p-10 rounded-3xl shadow-2xl bg-white max-w-md w-full">
         <div className="flex justify-center mb-6">
           <AlertTriangle className="w-16 h-16 text-red-500 animate-bounce" />

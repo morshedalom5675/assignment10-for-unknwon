@@ -52,6 +52,7 @@ const Register = () => {
 
   return (
     <div className=" py-10 min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center px-4">
+      <title>CleanTrack || Register</title>
       <div className="bg-white/90 backdrop-blur-xl shadow-xl rounded-2xl w-full max-w-md p-8 border border-gray-100">
         {/* Header */}
         <div className="text-center mb-6">

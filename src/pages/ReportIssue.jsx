@@ -54,6 +54,7 @@ const ReportIssue = () => {
   };
   return (
     <section className="max-w-3xl mx-auto my-16 p-8 bg-white shadow-xl rounded-2xl">
+      <title>CleanTrack || Add Issue</title>
       <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">
         Report a Community Issue
       </h2>

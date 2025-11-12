@@ -63,6 +63,7 @@ const IssueDetails = () => {
 
   return (
     <section className="container mx-auto px-4 py-16">
+      <title>CleanTrack || Issue Details</title>
       {/* 🔹 Header */}
       <div className="mb-8 text-center">
         <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-800">
