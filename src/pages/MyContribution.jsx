@@ -31,7 +31,8 @@ const MyContribution = () => {
           {/* Table Head */}
           <thead className="bg-green-600 text-white uppercase text-sm">
             <tr>
-              <th className="py-3 px-4 rounded-tl-2xl">Issue Title</th>
+              <th className="py-3 px-4 rounded-tl-2xl">SL.</th>
+              <th className="py-3 px-4">Issue Title</th>
               <th className="py-3 px-4">Category</th>
               <th className="py-3 px-4">Paid Amount</th>
               <th className="py-3 px-4">Date</th>
@@ -42,9 +43,10 @@ const MyContribution = () => {
           </thead>
 
           {/* Table Body (Dummy Data) */}
-          {myContribution.map((table) => (
+          {myContribution.map((table,index) => (
             <tbody>
               <tr className="hover:bg-green-50">
+                <th>{index + 1}</th>
                 <td className="py-3 px-4 font-semibold text-gray-800">
                   {table.title}
                 </td>

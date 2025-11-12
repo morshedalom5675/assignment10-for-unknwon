@@ -11,10 +11,16 @@ const Register = () => {
 
   const handleRegister = (event) => {
     event.preventDefault();
-    const displayName = event.target.displayName.value;
-    const photoURL = event.target.photoURL.value;
+    const displayName = event.target.name.value;
+    const photoURL = event.target.photo.value;
     const email = event.target.email.value;
     const password = event.target.password.value;
+
+    const passwordValidation = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+
+    if (!passwordValidation.test(password)) {
+      return toast.error("❌ Password must have at least 1 uppercase, 1 lowercase letter, and be at least 6 characters long.")
+    }
 
     createUser(email, password)
       .then((result) => {
@@ -72,6 +78,7 @@ const Register = () => {
             <div className="relative">
               <User size={18} className="absolute left-3 top-3 text-gray-400" />
               <input
+                name="name"
                 type="text"
                 placeholder="Enter your full name"
                 required
@@ -91,6 +98,7 @@ const Register = () => {
                 className="absolute left-3 top-3 text-gray-400"
               />
               <input
+                name="photo"
                 type="url"
                 placeholder="https://example.com/photo.jpg"
                 className="w-full border border-gray-300 pl-10 pr-3 py-2 rounded-lg focus:ring-2 focus:ring-green-500 outline-none transition"
@@ -106,6 +114,7 @@ const Register = () => {
             <div className="relative">
               <Mail size={18} className="absolute left-3 top-3 text-gray-400" />
               <input
+                name="email"
                 type="email"
                 placeholder="example@email.com"
                 required
@@ -122,6 +131,7 @@ const Register = () => {
             <div className="relative">
               <Lock size={18} className="absolute left-3 top-3 text-gray-400" />
               <input
+                name="password"
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter your password"
                 required

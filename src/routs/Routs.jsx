@@ -19,7 +19,7 @@ const router = createBrowserRouter([
     path: "/",
     Component: MainLayout,
     hydrateFallbackElement: <LoadingSpinner></LoadingSpinner>,
-    errorElement:<ErrorPage></ErrorPage>,
+    // errorElement:<ErrorPage></ErrorPage>,
     children: [
       {
         index: true,

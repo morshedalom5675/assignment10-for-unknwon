@@ -24,7 +24,7 @@ const ReportIssue = () => {
       image: e.target.image.value,
       amount: e.target.amount.value,
       email: user?.email,
-      state: "Ongoing",
+      status: "Ongoing",
       date: new Date().toISOString().split("T")[0],
     };
     // console.log({newReport})
