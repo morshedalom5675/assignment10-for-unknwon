@@ -7,9 +7,12 @@ import autoTable from "jspdf-autotable";
 const MyContribution = () => {
   const { user } = use(AuthContext);
   const [myContribution, setMyContribution] = useState([]);
+  console.log(myContribution);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/contributes?${user?.email}`)
+    fetch(
+      `https://cleantrack-assignment-server.vercel.app/contributes?email=${user?.email}`
+    )
       .then((res) => res.json())
       .then((data) => {
         setMyContribution(data);
@@ -57,7 +60,7 @@ const MyContribution = () => {
         <div className="text-right mb-4">
           <button
             onClick={downloadPDF}
-             className="inline-flex items-center px-5 py-2 bg-gradient-to-r from-green-500 to-blue-500 text-white font-semibold rounded-xl shadow-lg hover:scale-105 hover:shadow-2xl transition transform duration-300 ease-in-out gap-2"
+            className="inline-flex items-center px-5 py-2 bg-gradient-to-r from-green-500 to-blue-500 text-white font-semibold rounded-xl shadow-lg hover:scale-105 hover:shadow-2xl transition transform duration-300 ease-in-out gap-2"
           >
             <FileDown size={16} /> Download Report
           </button>

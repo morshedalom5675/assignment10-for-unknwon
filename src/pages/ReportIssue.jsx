@@ -29,7 +29,7 @@ const ReportIssue = () => {
       date: new Date().toISOString().split("T")[0],
     };
 
-    fetch("http://localhost:3000/issue", {
+    fetch("https://cleantrack-assignment-server.vercel.app/issue", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(newReport),
@@ -96,7 +96,10 @@ const ReportIssue = () => {
             Location
           </label>
           <div className="flex items-center border border-gray-300 dark:border-slate-600 rounded-xl bg-white dark:bg-slate-800">
-            <MapPin className="ml-3 text-green-600 dark:text-green-400" size={20} />
+            <MapPin
+              className="ml-3 text-green-600 dark:text-green-400"
+              size={20}
+            />
             <input
               name="location"
               type="text"
@@ -127,7 +130,10 @@ const ReportIssue = () => {
             Image URL
           </label>
           <div className="flex items-center border border-gray-300 dark:border-slate-600 rounded-xl bg-white dark:bg-slate-800">
-            <ImageIcon className="ml-3 text-blue-600 dark:text-blue-400" size={20} />
+            <ImageIcon
+              className="ml-3 text-blue-600 dark:text-blue-400"
+              size={20}
+            />
             <input
               name="image"
               type="url"
@@ -144,7 +150,10 @@ const ReportIssue = () => {
             Suggested Fix Budget (৳)
           </label>
           <div className="flex items-center border border-gray-300 dark:border-slate-600 rounded-xl bg-white dark:bg-slate-800">
-            <Coins className="ml-3 text-yellow-500 dark:text-yellow-400" size={20} />
+            <Coins
+              className="ml-3 text-yellow-500 dark:text-yellow-400"
+              size={20}
+            />
             <input
               name="amount"
               type="number"

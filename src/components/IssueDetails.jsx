@@ -30,7 +30,7 @@ const IssueDetails = () => {
       address: address,
       date: new Date().toISOString().split("T")[0],
     };
-    fetch("http://localhost:3000/contributes", {
+    fetch("https://cleantrack-assignment-server.vercel.app/contributes", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -51,7 +51,9 @@ const IssueDetails = () => {
   };
 
   useEffect(() => {
-    fetch(`http://localhost:3000/issue/contributes/${issueId}`)
+    fetch(
+      `https://cleantrack-assignment-server.vercel.app/issue/contributes/${issueId}`
+    )
       .then((res) => res.json())
       .then((data) => {
         setContributes(data);
@@ -257,8 +259,12 @@ const IssueDetails = () => {
             <tr>
               <th className="text-gray-700 dark:text-gray-200">SL.</th>
               <th className="text-gray-700 dark:text-gray-200">Name</th>
-              <th className="text-gray-700 dark:text-gray-200">Email & Number</th>
-              <th className="text-gray-700 dark:text-gray-200">Contributing Price</th>
+              <th className="text-gray-700 dark:text-gray-200">
+                Email & Number
+              </th>
+              <th className="text-gray-700 dark:text-gray-200">
+                Contributing Price
+              </th>
               <th></th>
             </tr>
           </thead>

@@ -1,21 +1,24 @@
-import React, { use, useEffect, useRef, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import Swal from "sweetalert2";
+import Modal from "../components/Modal";
 
 const MyIssues = () => {
   const { user } = use(AuthContext);
   const [myIssue, setMyIssue] = useState([]);
-  const modalRef = useRef(null);
+  const [selectedIssue, setSelectedIssue] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/issue?email=${user?.email}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setMyIssue(data);
-      });
+    if (user?.email) {
+      fetch(
+        `https://cleantrack-assignment-server.vercel.app/issue?email=${user.email}`
+      )
+        .then((res) => res.json())
+        .then((data) => setMyIssue(data));
+    }
   }, [user]);
 
-  // update issue
+  // Update issue
   const updateSubmit = (e, id) => {
     e.preventDefault();
     const updateData = {
@@ -25,23 +28,30 @@ const MyIssues = () => {
       amount: e.target.amount.value,
       status: e.target.status.value,
     };
-    fetch(`http://localhost:3000/issue/${id}`, {
+
+    fetch(`https://cleantrack-assignment-server.vercel.app/issue/${id}`, {
       method: "PUT",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(updateData),
     })
       .then((res) => res.json())
-      .then((data) => {
-        modalRef.current.close();
+      .then(() => {
+        setSelectedIssue(null); // modal close
         Swal.fire({
           title: "Your issue has been updated",
           icon: "success",
           draggable: true,
         });
+        // reload issues
+        fetch(
+          `https://cleantrack-assignment-server.vercel.app/issue?email=${user.email}`
+        )
+          .then((res) => res.json())
+          .then((data) => setMyIssue(data));
       });
   };
 
-  // delete issue
+  //  Delete issue
   const handleDeleteIssue = (_id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -53,7 +63,9 @@ const MyIssues = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:3000/issue/${_id}`, { method: "DELETE" })
+        fetch(`https://cleantrack-assignment-server.vercel.app/issue/${_id}`, {
+          method: "DELETE",
+        })
           .then((res) => res.json())
           .then((data) => {
             if (data.deletedCount) {
@@ -73,7 +85,7 @@ const MyIssues = () => {
     <section className="container mx-auto px-4 py-12">
       <title>CleanTrack || My Issue</title>
 
-      {/* Page Header */}
+      {/* Header */}
       <div className="text-center mb-12">
         <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-800 relative inline-block">
           <span className="bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
@@ -89,7 +101,6 @@ const MyIssues = () => {
       {/* Table */}
       <div className="overflow-x-auto bg-white dark:bg-gray-900 shadow-xl rounded-2xl border border-gray-100 dark:border-gray-700">
         <table className="table w-full">
-          {/* Head */}
           <thead className="bg-green-600 text-white uppercase text-sm">
             <tr>
               <th className="py-3 px-4 rounded-tl-2xl">SL</th>
@@ -103,29 +114,15 @@ const MyIssues = () => {
             </tr>
           </thead>
 
-          {/* Body */}
           {myIssue.map((issue, index) => (
             <tbody key={index}>
               <tr className="hover:bg-green-50 dark:hover:bg-gray-800">
-                <th className="py-3 px-4 text-gray-800 dark:text-gray-100">
-                  {index + 1}
-                </th>
-                <td className="py-3 px-4 font-semibold text-gray-800 dark:text-gray-200">
-                  {issue.title}
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
-                    {issue.description}
-                  </p>
-                </td>
-                <td className="py-3 px-4 text-gray-700 dark:text-gray-300">
-                  {issue.category}
-                </td>
-                <td className="py-3 px-4 text-gray-700 dark:text-gray-300">
-                  {issue.location}
-                </td>
-                <td className="py-3 px-4 text-gray-700 dark:text-gray-300">
-                  {issue.date}
-                </td>
-                <td className="py-3 px-4 text-green-700 dark:text-green-500 font-medium">
+                <th className="py-3 px-4">{index + 1}</th>
+                <td className="py-3 px-4 font-semibold">{issue.title}</td>
+                <td className="py-3 px-4">{issue.category}</td>
+                <td className="py-3 px-4">{issue.location}</td>
+                <td className="py-3 px-4">{issue.date}</td>
+                <td className="py-3 px-4 text-green-700 dark:text-green-400">
                   ৳{issue.amount}
                 </td>
                 <td className="py-3 px-4">
@@ -139,125 +136,16 @@ const MyIssues = () => {
                     {issue.status}
                   </span>
                 </td>
-                <td className="py-3 px-4 space-x-2">
+                <td className="py-3 px-4 text-center space-x-2">
                   <button
-                    onClick={() => modalRef.current.showModal()}
-                    className="btn btn-sm bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 text-white"
+                    onClick={() => setSelectedIssue(issue)}
+                    className="px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white transition"
                   >
                     Update
                   </button>
-
-                  {/* modal */}
-                  <dialog
-                    ref={modalRef}
-                    id="my_modal_5"
-                    className="modal modal-bottom sm:modal-middle"
-                  >
-                    <div className="modal-box max-h-[90vh] overflow-y-auto">
-                      <div className="max-w-xl mx-auto bg-white dark:bg-gray-800 shadow-lg rounded-2xl p-8 border border-gray-100 dark:border-gray-700">
-                        <h2 className="text-3xl font-bold text-center text-green-700 dark:text-green-500 mb-6">
-                          Update Your Issue
-                        </h2>
-
-                        <form
-                          onSubmit={(event) => updateSubmit(event, issue._id)}
-                          className="space-y-5"
-                        >
-                          {/* Issue Title */}
-                          <div>
-                            <label className="block text-gray-700 dark:text-gray-300 font-medium mb-1">
-                              Issue Title
-                            </label>
-                            <input
-                              defaultValue={issue.title}
-                              name="title"
-                              type="text"
-                              placeholder="Enter issue title"
-                              className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
-                            />
-                          </div>
-
-                          {/* Amount */}
-                          <div>
-                            <label className="block text-gray-700 dark:text-gray-300 font-medium mb-1">
-                              Amount
-                            </label>
-                            <input
-                              defaultValue={issue.amount}
-                              name="amount"
-                              type="text"
-                              placeholder="Enter contribution amount"
-                              className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-green-500 outline-none bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
-                            />
-                          </div>
-
-                          {/* Category */}
-                          <div>
-                            <label className="block text-gray-700 dark:text-gray-300 font-medium mb-1">
-                              Category
-                            </label>
-                            <select
-                              defaultValue={issue.category}
-                              name="category"
-                              className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-green-500 outline-none bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
-                            >
-                              <option>Update Category</option>
-                              <option>Garbage</option>
-                              <option>Drainage</option>
-                              <option>Waterlogging</option>
-                              <option>Infrastructure</option>
-                            </select>
-                          </div>
-
-                          {/* Description */}
-                          <div>
-                            <label className="block text-gray-700 dark:text-gray-300 font-medium mb-1">
-                              Description
-                            </label>
-                            <textarea
-                              defaultValue={issue.description}
-                              name="description"
-                              rows="4"
-                              placeholder="Describe the issue in detail..."
-                              className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-green-500 outline-none bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
-                            ></textarea>
-                          </div>
-
-                          {/* Status */}
-                          <div>
-                            <label className="block text-gray-700 dark:text-gray-300 font-medium mb-1">
-                              Status
-                            </label>
-                            <select
-                              defaultValue={issue.status}
-                              name="status"
-                              className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-green-500 outline-none bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
-                            >
-                              <option>Select Status</option>
-                              <option>Ongoing</option>
-                              <option>Ended</option>
-                            </select>
-                          </div>
-
-                          {/* Submit Button */}
-                          <button
-                            type="submit"
-                            className="w-full bg-green-600 hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600 text-white font-semibold py-3 rounded-xl transition duration-300"
-                          >
-                            Update
-                          </button>
-                        </form>
-                      </div>
-                    </div>
-
-                    <form method="dialog" className="modal-backdrop">
-                      <button>close</button>
-                    </form>
-                  </dialog>
-
                   <button
                     onClick={() => handleDeleteIssue(issue._id)}
-                    className="btn btn-sm bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700 text-white"
+                    className="px-3 py-1.5 rounded-lg bg-red-600 hover:bg-red-700 text-white transition"
                   >
                     Delete
                   </button>
@@ -267,13 +155,77 @@ const MyIssues = () => {
           ))}
         </table>
 
-        {/* Empty state */}
         {myIssue.length === 0 && (
           <div className="text-center py-8 text-gray-500 dark:text-gray-400">
             No issues found 😔
           </div>
         )}
       </div>
+
+      {/* Custom Modal */}
+      <Modal
+        isOpen={!!selectedIssue}
+        onClose={() => setSelectedIssue(null)}
+        title="Update Your Issue"
+      >
+        {selectedIssue && (
+          <form
+            onSubmit={(e) => updateSubmit(e, selectedIssue._id)}
+            className="space-y-5"
+          >
+            <input
+              defaultValue={selectedIssue.title}
+              name="title"
+              type="text"
+              placeholder="Enter issue title"
+              className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
+            />
+
+            <input
+              defaultValue={selectedIssue.amount}
+              name="amount"
+              type="text"
+              placeholder="Enter contribution amount"
+              className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
+            />
+
+            <select
+              defaultValue={selectedIssue.category}
+              name="category"
+              className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
+            >
+              <option>Garbage</option>
+              <option>Drainage</option>
+              <option>Waterlogging</option>
+              <option>Infrastructure</option>
+            </select>
+
+            <textarea
+              defaultValue={selectedIssue.description}
+              name="description"
+              rows="4"
+              placeholder="Describe the issue..."
+              className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
+            ></textarea>
+
+            <select
+              defaultValue={selectedIssue.status}
+              name="status"
+              className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
+            >
+              <option>Ongoing</option>
+              <option>Ended</option>
+            </select>
+
+            <button
+              type="submit"
+              className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-xl transition"
+            >
+              Update
+            </button>
+          </form>
+        )}
+      </Modal>
     </section>
   );
 };

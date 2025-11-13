@@ -4,9 +4,9 @@ import RecentIssue from "../components/RecentIssue";
 import CategorySection from "../components/CategorySection";
 import CounterSection from "../components/CounterSection";
 
-const issuePromise = fetch("http://localhost:3000/latest-issue").then((res) =>
-  res.json()
-);
+const issuePromise = fetch(
+  "https://cleantrack-assignment-server.vercel.app/latest-issue"
+).then((res) => res.json());
 
 const Home = () => {
   return (

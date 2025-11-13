@@ -18,7 +18,7 @@ const router = createBrowserRouter([
     path: "/",
     Component: MainLayout,
     hydrateFallbackElement: <LoadingSpinner></LoadingSpinner>,
-    errorElement:<ErrorPage></ErrorPage>,
+    errorElement: <ErrorPage></ErrorPage>,
     children: [
       {
         index: true,
@@ -28,7 +28,7 @@ const router = createBrowserRouter([
         path: "about",
         Component: About,
       },
-     
+
       {
         path: "login",
         Component: Login,
@@ -39,13 +39,16 @@ const router = createBrowserRouter([
       },
       {
         path: "allIssue",
-        loader: () => fetch("http://localhost:3000/issue"),
+        loader: () =>
+          fetch("https://cleantrack-assignment-server.vercel.app/issue"),
         Component: AllIssue,
       },
       {
         path: "/issueDetails/:id",
         loader: ({ params }) =>
-          fetch(`http://localhost:3000/issue/${params.id}`),
+          fetch(
+            `https://cleantrack-assignment-server.vercel.app/issue/${params.id}`
+          ),
         element: (
           <PrivateRoute>
             <IssueDetails></IssueDetails>
