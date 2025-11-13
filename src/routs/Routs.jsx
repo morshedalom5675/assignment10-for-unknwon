@@ -12,6 +12,7 @@ import LoadingSpinner from "../components/LoadingSpinner";
 import MyIssues from "../pages/MyIssues";
 import MyContribution from "../pages/MyContribution";
 import ErrorPage from "../pages/ErrorPage";
+import App from "../App";
 
 const router = createBrowserRouter([
   {
