@@ -38,7 +38,7 @@ const Register = () => {
   };
 
   const handleGoogleSignIn = () => {
-    toast.loading("Creating user...", { id: "create-user" });
+    // toast.loading("Creating user...", { id: "create-user" });
     signInWithGoogle()
       .then((result) => {
         toast.success("User created successfully!");
