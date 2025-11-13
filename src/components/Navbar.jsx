@@ -66,8 +66,8 @@ const Navbar = () => {
           </ul>
         </div>
 
-        <Leaf className="w-6 h-6 text-green-600 mr-1" />
-        <h2 className="text-2xl font-bold text-green-700">CleanTrack</h2>
+        <Leaf className="w-6 h-6 text-success mr-1" />
+        <h2 className="text-2xl font-bold text-success">CleanTrack</h2>
       </div>
 
       {/* Center Menu */}

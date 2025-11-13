@@ -1,36 +1,40 @@
 import React from "react";
-import { Link } from "react-router";
+
+import { Link } from "react-router"; 
 import { Leaf } from "lucide-react";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-100 dark:bg-slate-900 text-gray-700 dark:text-gray-300 mt-16 border-t border-gray-200 dark:border-slate-700">
-      <div className="container mx-auto px-6 py-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+    
+    <footer className="bg-base-300 text-base-content mt-16 border-t border-base-300">
+      <div className="container mx-auto px-6 py-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 max-w-7xl">
         
-        {/* 🌿 Logo & Description */}
         <div>
           <div className="flex items-center gap-2 mb-3">
-            <Leaf className="w-6 h-6 text-green-600 dark:text-green-400" />
-            <h2 className="text-2xl font-bold text-green-700 dark:text-green-400">
+            
+            <Leaf className="w-6 h-6 text-success" /> 
+            <h2 className="text-2xl font-bold text-success">
               CleanTrack
             </h2>
           </div>
-          <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+  
+          <p className="text-sm text-base-content/70 leading-relaxed">
             Empowering communities to keep their surroundings clean and green.
             Report, track, and contribute to local cleanup efforts easily.
           </p>
         </div>
 
-        {/* 🔗 Useful Links */}
         <div>
-          <h3 className="text-lg font-semibold mb-3 text-gray-800 dark:text-gray-200">
+          
+          <h3 className="text-lg font-semibold mb-3 text-base-content">
             Useful Links
           </h3>
           <ul className="space-y-2">
             <li>
               <Link
                 to="/"
-                className="hover:text-green-600 dark:hover:text-green-400 transition"
+                // hover text uses DaisyUI 'success' color
+                className="hover:text-success transition" 
               >
                 Home
               </Link>
@@ -38,7 +42,7 @@ const Footer = () => {
             <li>
               <Link
                 to="/allIssue"
-                className="hover:text-green-600 dark:hover:text-green-400 transition"
+                className="hover:text-success transition"
               >
                 All Issues
               </Link>
@@ -46,7 +50,7 @@ const Footer = () => {
             <li>
               <Link
                 to="/addIssue"
-                className="hover:text-green-600 dark:hover:text-green-400 transition"
+                className="hover:text-success transition"
               >
                 Report Issue
               </Link>
@@ -54,7 +58,7 @@ const Footer = () => {
             <li>
               <Link
                 to="/about"
-                className="hover:text-green-600 dark:hover:text-green-400 transition"
+                className="hover:text-success transition"
               >
                 About Us
               </Link>
@@ -62,9 +66,9 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* ☎️ Contact Info */}
+        
         <div>
-          <h3 className="text-lg font-semibold mb-3 text-gray-800 dark:text-gray-200">
+          <h3 className="text-lg font-semibold mb-3 text-base-content">
             Contact
           </h3>
           <ul className="space-y-2 text-sm">
@@ -72,22 +76,21 @@ const Footer = () => {
               Email:{" "}
               <a
                 href="mailto:support@cleantrack.com"
-                className="text-green-600 dark:text-green-400 hover:underline"
+                className="text-success hover:underline" 
               >
                 support@cleantrack.com
               </a>
             </li>
-            <li>Phone: +880 1234-567890</li>
-            <li>Dhaka, Bangladesh</li>
+            <li className="text-base-content/70">Phone: +880 1234-567890</li>
+            <li className="text-base-content/70">Dhaka, Bangladesh</li>
           </ul>
         </div>
 
-        {/* 🪴 Copyright */}
         <div className="sm:col-span-2 lg:col-span-1 flex flex-col justify-between">
-          <h3 className="text-lg font-semibold mb-3 text-gray-800 dark:text-gray-200">
+          <h3 className="text-lg font-semibold mb-3 text-base-content">
             Stay Clean, Stay Green
           </h3>
-          <p className="text-sm text-gray-500 dark:text-gray-400">
+          <p className="text-sm text-base-content/60">
             © {new Date().getFullYear()} CleanTrack. All rights reserved.
           </p>
         </div>
