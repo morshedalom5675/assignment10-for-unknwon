@@ -8,22 +8,19 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { signInUser, signInWithGoogle } = use(AuthContext);
 
-  //   const location = useLocation();
   const navigate = useNavigate();
-  console.log(location);
 
   const handleLogIn = (event) => {
     event.preventDefault();
     const email = event.target.email.value;
     const password = event.target.password.value;
 
-    console.log(email, password);
     signInUser(email, password)
       .then((result) => {
         console.log(result.user);
         event.target.reset();
         toast.success("Login Successful");
-        navigate(location.state || "/");
+        navigate(location?.state || "/");
       })
       .catch((error) => {
         toast.error(error.message);
@@ -45,9 +42,9 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen py-10 bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center px-4">
+    <div className="min-h-screen py-10 bg-gradient-to-br from-green-50 to-blue-50 dark:from-gray-800 dark:to-gray-900 flex items-center justify-center px-4">
       <title>CleanTrack || Login</title>
-      <div className="bg-white/90 backdrop-blur-xl shadow-xl rounded-2xl w-full max-w-md p-8 border border-gray-100">
+      <div className="bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl shadow-xl rounded-2xl w-full max-w-md p-8 border border-gray-100 dark:border-gray-700">
         {/* Header */}
         <div className="text-center mb-6">
           <img
@@ -55,49 +52,51 @@ const Login = () => {
             alt="logo"
             className="w-16 mx-auto mb-3"
           />
-          <h2 className="text-2xl font-bold text-gray-800">
+          <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
             Login Your Account
           </h2>
-          <p className="text-gray-500 text-sm mt-1">Login to get started 🌱</p>
+          <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">
+            Login to get started 🌱
+          </p>
         </div>
 
         {/* Form */}
         <form onSubmit={handleLogIn} className="space-y-5">
           {/* Email */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Email Address
             </label>
             <div className="relative">
-              <Mail size={18} className="absolute left-3 top-3 text-gray-400" />
+              <Mail size={18} className="absolute left-3 top-3 text-gray-400 dark:text-gray-500" />
               <input
                 name="email"
                 type="email"
                 placeholder="example@email.com"
                 required
-                className="w-full border border-gray-300 pl-10 pr-3 py-2 rounded-lg focus:ring-2 focus:ring-green-500 outline-none transition"
+                className="w-full border border-gray-300 dark:border-gray-600 pl-10 pr-3 py-2 rounded-lg focus:ring-2 focus:ring-green-500 outline-none transition bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
               />
             </div>
           </div>
 
           {/* Password */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Password
             </label>
             <div className="relative">
-              <Lock size={18} className="absolute left-3 top-3 text-gray-400" />
+              <Lock size={18} className="absolute left-3 top-3 text-gray-400 dark:text-gray-500" />
               <input
                 name="password"
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter your password"
                 required
-                className="w-full border border-gray-300 pl-10 pr-10 py-2 rounded-lg focus:ring-2 focus:ring-green-500 outline-none transition"
+                className="w-full border border-gray-300 dark:border-gray-600 pl-10 pr-10 py-2 rounded-lg focus:ring-2 focus:ring-green-500 outline-none transition bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-2.5 text-gray-500 hover:text-gray-700"
+                className="absolute right-3 top-2.5 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
               >
                 {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
@@ -107,7 +106,7 @@ const Login = () => {
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded-lg shadow-md transition"
+            className="w-full bg-green-600 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-800 text-white font-semibold py-2 rounded-lg shadow-md transition"
           >
             Login
           </button>
@@ -115,32 +114,32 @@ const Login = () => {
 
         {/* Divider */}
         <div className="flex items-center gap-3 my-6">
-          <hr className="flex-1 border-gray-300" />
-          <p className="text-gray-500 text-sm">OR</p>
-          <hr className="flex-1 border-gray-300" />
+          <hr className="flex-1 border-gray-300 dark:border-gray-600" />
+          <p className="text-gray-500 dark:text-gray-400 text-sm">OR</p>
+          <hr className="flex-1 border-gray-300 dark:border-gray-600" />
         </div>
 
         {/* Google Sign In */}
         <button
           onClick={handleGoogleSignIn}
-          className="w-full border border-gray-300 py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-50 transition"
+          className="w-full border border-gray-300 dark:border-gray-600 py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
         >
           <img
             src="https://www.svgrepo.com/show/475656/google-color.svg"
             alt="google"
             className="w-5 h-5"
           />
-          <span className="font-medium text-gray-700">
+          <span className="font-medium text-gray-700 dark:text-gray-200">
             Continue with Google
           </span>
         </button>
 
         {/* Footer */}
-        <p className="text-center text-gray-600 text-sm mt-5">
-          Already have an account?{" "}
+        <p className="text-center text-gray-600 dark:text-gray-400 text-sm mt-5">
+          Don't have an account?{" "}
           <Link
             to="/register"
-            className="text-green-600 font-medium cursor-pointer hover:underline"
+            className="text-green-600 dark:text-green-400 font-medium cursor-pointer hover:underline"
           >
             Register
           </Link>

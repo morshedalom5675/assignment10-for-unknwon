@@ -6,6 +6,7 @@ const MyIssues = () => {
   const { user } = use(AuthContext);
   const [myIssue, setMyIssue] = useState([]);
   const modalRef = useRef(null);
+
   useEffect(() => {
     fetch(`http://localhost:3000/issue?email=${user?.email}`)
       .then((res) => res.json())
@@ -15,33 +16,33 @@ const MyIssues = () => {
   }, [user]);
 
   // update issue
-  const updateSubmit = (e,id) => {
+  const updateSubmit = (e, id) => {
     e.preventDefault();
     const updateData = {
       title: e.target.title.value,
       category: e.target.category.value,
       description: e.target.description.value,
       amount: e.target.amount.value,
-      state: e.target.status.value,
+      status: e.target.status.value,
     };
-    // console.log("id", id);
     fetch(`http://localhost:3000/issue/${id}`, {
       method: "PUT",
-      headers: {
-        'content-type':'application/json'
-      },
-      body: JSON.stringify(updateData)
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(updateData),
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        modalRef.current.close()
+        modalRef.current.close();
+        Swal.fire({
+          title: "Your issue has been updated",
+          icon: "success",
+          draggable: true,
+        });
       });
   };
 
-
-//   delete issue
- const handleDeleteIssue = (_id) => {
+  // delete issue
+  const handleDeleteIssue = (_id) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -52,9 +53,7 @@ const MyIssues = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:3000/issue/${_id}`, {
-          method: "DELETE",
-        })
+        fetch(`http://localhost:3000/issue/${_id}`, { method: "DELETE" })
           .then((res) => res.json())
           .then((data) => {
             if (data.deletedCount) {
@@ -63,10 +62,7 @@ const MyIssues = () => {
                 text: "Your issue has been deleted.",
                 icon: "success",
               });
-
-              // update UI 
-              const remainingIssue = myIssue.filter((issue) => issue._id !== _id);
-              setMyIssue(remainingIssue);
+              setMyIssue(myIssue.filter((issue) => issue._id !== _id));
             }
           });
       }
@@ -76,18 +72,22 @@ const MyIssues = () => {
   return (
     <section className="container mx-auto px-4 py-12">
       <title>CleanTrack || My Issue</title>
-      {/*  Page Header */}
-      <div className="text-center mb-10">
-        <h1 className="text-4xl font-bold text-green-700">
-          My Reported Issues
+
+      {/* Page Header */}
+      <div className="text-center mb-12">
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-800 relative inline-block">
+          <span className="bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
+            My Reported Issues
+          </span>
+          <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-20 h-[3px] bg-green-500 rounded-full mt-2"></span>
         </h1>
-        <p className="text-gray-500 mt-2 text-sm sm:text-base">
+        <p className="text-gray-500 mt-3 text-sm sm:text-base max-w-2xl mx-auto">
           Manage and track the issues you have reported in your community
         </p>
       </div>
 
-      {/*  Table */}
-      <div className="overflow-x-auto bg-white shadow-xl rounded-2xl border border-gray-100">
+      {/* Table */}
+      <div className="overflow-x-auto bg-white dark:bg-gray-900 shadow-xl rounded-2xl border border-gray-100 dark:border-gray-700">
         <table className="table w-full">
           {/* Head */}
           <thead className="bg-green-600 text-white uppercase text-sm">
@@ -103,27 +103,37 @@ const MyIssues = () => {
             </tr>
           </thead>
 
-          {/* Body (Dummy Data) */}
+          {/* Body */}
           {myIssue.map((issue, index) => (
             <tbody key={index}>
-              <tr className="hover:bg-green-50">
-                <th>{index + 1}</th>
-                <td className="py-3 px-4 font-semibold text-gray-800">
+              <tr className="hover:bg-green-50 dark:hover:bg-gray-800">
+                <th className="py-3 px-4 text-gray-800 dark:text-gray-100">
+                  {index + 1}
+                </th>
+                <td className="py-3 px-4 font-semibold text-gray-800 dark:text-gray-200">
                   {issue.title}
-                  <p className="text-sm text-gray-500">{issue.description}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    {issue.description}
+                  </p>
                 </td>
-                <td className="py-3 px-4 text-gray-700">{issue.category}</td>
-                <td className="py-3 px-4 text-gray-700">{issue.location}</td>
-                <td className="py-3 px-4 text-gray-700">{issue.date}</td>
-                <td className="py-3 px-4 text-green-700 font-medium">
+                <td className="py-3 px-4 text-gray-700 dark:text-gray-300">
+                  {issue.category}
+                </td>
+                <td className="py-3 px-4 text-gray-700 dark:text-gray-300">
+                  {issue.location}
+                </td>
+                <td className="py-3 px-4 text-gray-700 dark:text-gray-300">
+                  {issue.date}
+                </td>
+                <td className="py-3 px-4 text-green-700 dark:text-green-500 font-medium">
                   ৳{issue.amount}
                 </td>
                 <td className="py-3 px-4">
                   <span
                     className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                      issue.status === "ongoing"
-                        ? "bg-yellow-100 text-yellow-700"
-                        : "bg-green-100 text-green-700"
+                      issue.status === "Ongoing"
+                        ? "bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-400"
+                        : "bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-400"
                     }`}
                   >
                     {issue.status}
@@ -132,33 +142,30 @@ const MyIssues = () => {
                 <td className="py-3 px-4 space-x-2">
                   <button
                     onClick={() => modalRef.current.showModal()}
-                    className="btn btn-sm bg-blue-500 hover:bg-blue-600 text-white"
+                    className="btn btn-sm bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 text-white"
                   >
                     Update
                   </button>
 
-                  {/* open update modal */}
+                  {/* modal */}
                   <dialog
                     ref={modalRef}
                     id="my_modal_5"
                     className="modal modal-bottom sm:modal-middle"
                   >
-                    {/* modal form */}
                     <div className="modal-box max-h-[90vh] overflow-y-auto">
-                      <div className="max-w-xl mx-auto bg-white shadow-lg rounded-2xl p-8 border">
-                        <h2 className="text-3xl font-bold text-center text-green-700 mb-6">
+                      <div className="max-w-xl mx-auto bg-white dark:bg-gray-800 shadow-lg rounded-2xl p-8 border border-gray-100 dark:border-gray-700">
+                        <h2 className="text-3xl font-bold text-center text-green-700 dark:text-green-500 mb-6">
                           Update Your Issue
                         </h2>
 
                         <form
-                          onSubmit={() =>
-                            updateSubmit(event,issue._id)
-                          }
+                          onSubmit={(event) => updateSubmit(event, issue._id)}
                           className="space-y-5"
                         >
                           {/* Issue Title */}
                           <div>
-                            <label className="block text-gray-700 font-medium mb-1">
+                            <label className="block text-gray-700 dark:text-gray-300 font-medium mb-1">
                               Issue Title
                             </label>
                             <input
@@ -166,13 +173,13 @@ const MyIssues = () => {
                               name="title"
                               type="text"
                               placeholder="Enter issue title"
-                              className="w-full p-3 border border-gray-300 rounded-xl bg-gray-100"
+                              className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
                             />
                           </div>
 
                           {/* Amount */}
                           <div>
-                            <label className="block text-gray-700 font-medium mb-1">
+                            <label className="block text-gray-700 dark:text-gray-300 font-medium mb-1">
                               Amount
                             </label>
                             <input
@@ -180,19 +187,19 @@ const MyIssues = () => {
                               name="amount"
                               type="text"
                               placeholder="Enter contribution amount"
-                              className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 outline-none"
+                              className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-green-500 outline-none bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
                             />
                           </div>
 
-                          {/* issue category */}
+                          {/* Category */}
                           <div>
-                            <label className="block text-gray-700 font-medium mb-1">
+                            <label className="block text-gray-700 dark:text-gray-300 font-medium mb-1">
                               Category
                             </label>
                             <select
                               defaultValue={issue.category}
                               name="category"
-                              className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 outline-none"
+                              className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-green-500 outline-none bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
                             >
                               <option>Update Category</option>
                               <option>Garbage</option>
@@ -204,7 +211,7 @@ const MyIssues = () => {
 
                           {/* Description */}
                           <div>
-                            <label className="block text-gray-700 font-medium mb-1">
+                            <label className="block text-gray-700 dark:text-gray-300 font-medium mb-1">
                               Description
                             </label>
                             <textarea
@@ -212,19 +219,19 @@ const MyIssues = () => {
                               name="description"
                               rows="4"
                               placeholder="Describe the issue in detail..."
-                              className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 outline-none"
+                              className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-green-500 outline-none bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
                             ></textarea>
                           </div>
 
-                          {/* status */}
+                          {/* Status */}
                           <div>
-                            <label className="block text-gray-700 font-medium mb-1">
+                            <label className="block text-gray-700 dark:text-gray-300 font-medium mb-1">
                               Status
                             </label>
                             <select
                               defaultValue={issue.status}
                               name="status"
-                              className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 outline-none"
+                              className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-green-500 outline-none bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
                             >
                               <option>Select Status</option>
                               <option>Ongoing</option>
@@ -235,7 +242,7 @@ const MyIssues = () => {
                           {/* Submit Button */}
                           <button
                             type="submit"
-                            className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-xl transition duration-300"
+                            className="w-full bg-green-600 hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600 text-white font-semibold py-3 rounded-xl transition duration-300"
                           >
                             Update
                           </button>
@@ -247,10 +254,11 @@ const MyIssues = () => {
                       <button>close</button>
                     </form>
                   </dialog>
+
                   <button
-                    
                     onClick={() => handleDeleteIssue(issue._id)}
-                    className="btn btn-sm bg-red-500 hover:bg-red-600 text-white">
+                    className="btn btn-sm bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700 text-white"
+                  >
                     Delete
                   </button>
                 </td>
@@ -260,9 +268,11 @@ const MyIssues = () => {
         </table>
 
         {/* Empty state */}
-        <div className="hidden text-center py-8 text-gray-500">
-          No issues found 😔
-        </div>
+        {myIssue.length === 0 && (
+          <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+            No issues found 😔
+          </div>
+        )}
       </div>
     </section>
   );

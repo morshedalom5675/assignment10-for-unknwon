@@ -1,4 +1,4 @@
-import React, { use } from "react";
+import React, { use, useEffect, useState } from "react";
 import { FaGear, FaUser } from "react-icons/fa6";
 import { IoLogIn, IoLogOut } from "react-icons/io5";
 import { Link, NavLink } from "react-router";
@@ -7,7 +7,18 @@ import { Leaf } from "lucide-react";
 import { HashLoader } from "react-spinners";
 
 const Navbar = () => {
-  const { user, signOutUser ,loading} = use(AuthContext);
+  const { user, signOutUser, loading } = use(AuthContext);
+  const [theme, setTheme] = useState(localStorage.getItem("theme")||"light");
+
+  useEffect(() => {
+    const html = document.querySelector("html");
+    html.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  const handleTheme = (checked) => {
+    setTheme(checked ? "dark" : "light");
+  };
 
   return (
     <div className="navbar bg-base-100 shadow-sm">
@@ -34,12 +45,24 @@ const Navbar = () => {
             tabIndex="-1"
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow"
           >
-            <li><NavLink to="/">Home</NavLink></li>
-            <li><NavLink to="/about">About</NavLink></li>
-            <li><NavLink to="/profile">Profile</NavLink></li>
-            <li><NavLink to="/addIssue">Add Issue</NavLink></li>
-            <li><NavLink to="/myIssue">My Issue</NavLink></li>
-            <li><NavLink to="/myContribution">My Contribution</NavLink></li>
+            <li>
+              <NavLink to="/">Home</NavLink>
+            </li>
+            <li>
+              <NavLink to="/about">About</NavLink>
+            </li>
+            <li>
+              <NavLink to="/profile">Profile</NavLink>
+            </li>
+            <li>
+              <NavLink to="/addIssue">Add Issue</NavLink>
+            </li>
+            <li>
+              <NavLink to="/myIssue">My Issue</NavLink>
+            </li>
+            <li>
+              <NavLink to="/myContribution">My Contribution</NavLink>
+            </li>
           </ul>
         </div>
 
@@ -50,18 +73,83 @@ const Navbar = () => {
       {/* Center Menu */}
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
-          <li><NavLink to="/">Home</NavLink></li>
-          <li><NavLink to="/about">About</NavLink></li>
-          <li><NavLink to="/profile">Profile</NavLink></li>
-          <li><NavLink to="/allIssue">All Issue</NavLink></li>
-          <li><NavLink to="/addIssue">Add Issue</NavLink></li>
-          <li><NavLink to="/myIssue">My Issue</NavLink></li>
-          <li><NavLink to="/myContribution">My Contribution</NavLink></li>
+          <li>
+            <NavLink to="/">Home</NavLink>
+          </li>
+          <li>
+            <NavLink to="/about">About</NavLink>
+          </li>
+          <li>
+            <NavLink to="/profile">Profile</NavLink>
+          </li>
+          <li>
+            <NavLink to="/allIssue">All Issue</NavLink>
+          </li>
+          <li>
+            <NavLink to="/addIssue">Add Issue</NavLink>
+          </li>
+          <li>
+            <NavLink to="/myIssue">My Issue</NavLink>
+          </li>
+          <li>
+            <NavLink to="/myContribution">My Contribution</NavLink>
+          </li>
         </ul>
       </div>
 
       {/* Right Side (User / Login) */}
       <div className="navbar-end">
+        {/* theme toggle */}
+        <label
+          onChange={(e) => handleTheme(e.target.checked)}
+          className="toggle text-base-content mr-3"
+        >
+          <input
+            type="checkbox"
+            value="synthwave"
+            className="theme-controller"
+          />
+
+          <svg
+            aria-label="sun"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+          >
+            <g
+              strokeLinejoin="round"
+              strokeLinecap="round"
+              strokeWidth="2"
+              fill="none"
+              stroke="currentColor"
+            >
+              <circle cx="12" cy="12" r="4"></circle>
+              <path d="M12 2v2"></path>
+              <path d="M12 20v2"></path>
+              <path d="m4.93 4.93 1.41 1.41"></path>
+              <path d="m17.66 17.66 1.41 1.41"></path>
+              <path d="M2 12h2"></path>
+              <path d="M20 12h2"></path>
+              <path d="m6.34 17.66-1.41 1.41"></path>
+              <path d="m19.07 4.93-1.41 1.41"></path>
+            </g>
+          </svg>
+
+          <svg
+            aria-label="moon"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+          >
+            <g
+              strokeLinejoin="round"
+              strokeLinecap="round"
+              strokeWidth="2"
+              fill="none"
+              stroke="currentColor"
+            >
+              <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+            </g>
+          </svg>
+        </label>
         {user ? (
           <div className="dropdown dropdown-end z-50">
             <div
@@ -112,10 +200,10 @@ const Navbar = () => {
               </li>
             </ul>
           </div>
-        ) : loading?  <HashLoader size={25} color="#16a34a" />: (
+        ) : loading ? (
+          <HashLoader size={25} color="#16a34a" />
+        ) : (
           <>
-           
-
             {/* Login button */}
             <Link
               to="/login"
