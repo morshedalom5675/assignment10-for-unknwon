@@ -1,6 +1,6 @@
 import React, { use, useEffect, useState } from "react";
 import { FaGear, FaUser } from "react-icons/fa6";
-import { IoLogIn, IoLogOut } from "react-icons/io5";
+import { IoLogOut } from "react-icons/io5";
 import { Link, NavLink } from "react-router";
 import { AuthContext } from "../context/AuthContext";
 import { Leaf, LogIn, UserPlus } from "lucide-react";
@@ -52,9 +52,6 @@ const Navbar = () => {
               <NavLink to="/about">About</NavLink>
             </li>
             <li>
-              <NavLink to="/profile">Profile</NavLink>
-            </li>
-            <li>
               <NavLink to="/addIssue">Add Issue</NavLink>
             </li>
             <li>
@@ -78,9 +75,6 @@ const Navbar = () => {
           </li>
           <li>
             <NavLink to="/about">About</NavLink>
-          </li>
-          <li>
-            <NavLink to="/profile">Profile</NavLink>
           </li>
           <li>
             <NavLink to="/allIssue">All Issue</NavLink>
@@ -212,8 +206,7 @@ const Navbar = () => {
                            transition duration-300 shadow-sm 
                            hover:shadow-lg hover:scale-[1.02] border-2"
               >
-                    
-                    <UserPlus className="w-4 h-4" />
+                <UserPlus className="w-4 h-4" />
                 <span>Register</span>
               </Link>
 
