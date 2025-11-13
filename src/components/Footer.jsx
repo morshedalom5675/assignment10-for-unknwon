@@ -33,7 +33,7 @@ const Footer = () => {
             <li>
               <Link
                 to="/"
-                // hover text uses DaisyUI 'success' color
+                
                 className="hover:text-success transition" 
               >
                 Home

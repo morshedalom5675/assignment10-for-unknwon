@@ -13,7 +13,6 @@ const AllIssue = () => {
     return <LoadingSpinner />;
   }
 
-  // Sort data by category if selected
   const sortedData = sortCategory
     ? [...data].filter((issue) => issue.category === sortCategory)
     : data;
@@ -22,7 +21,6 @@ const AllIssue = () => {
     <section className="container mx-auto px-4 py-16">
       <title>CleanTrack || All Issue</title>
 
-      {/* Page Header */}
       <div className="text-center mb-6">
         <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-800 relative inline-block">
           <span className="bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
@@ -36,7 +34,6 @@ const AllIssue = () => {
         </p>
       </div>
 
-      {/* Sort Field */}
       <div className="flex justify-end mb-6 items-center gap-2">
         <label className="font-medium text-gray-700 dark:text-gray-300">
           Filter by Category:
@@ -54,7 +51,6 @@ const AllIssue = () => {
         </select>
       </div>
 
-      {/* 🔹 Grid Layout */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {sortedData.map((issue) => (
           <IssueCard key={issue._id} issue={issue} />

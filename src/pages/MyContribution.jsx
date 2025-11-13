@@ -33,7 +33,7 @@ const MyContribution = () => {
         item.date,
       ]),
       styles: { fontSize: 10 },
-      headStyles: { fillColor: [34, 197, 94] }, // green header
+      headStyles: { fillColor: [34, 197, 94] },
     });
     doc.save("Data.pdf");
   };
@@ -42,7 +42,6 @@ const MyContribution = () => {
     <section className="container mx-auto px-4 py-12">
       <title>CleanTrack || My Contribution</title>
 
-      {/* Page Header */}
       <div className="text-center mb-6">
         <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-800 dark:text-gray-100 relative inline-block">
           <span className="bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
@@ -55,7 +54,6 @@ const MyContribution = () => {
         </p>
       </div>
 
-      {/* Download Button */}
       {myContribution.length > 0 && (
         <div className="text-right mb-4">
           <button
@@ -67,10 +65,8 @@ const MyContribution = () => {
         </div>
       )}
 
-      {/* Table Section */}
       <div className="overflow-x-auto bg-white dark:bg-gray-900 shadow-xl rounded-2xl border border-gray-100 dark:border-gray-700">
         <table className="table w-full">
-          {/* Table Head */}
           <thead className="bg-green-600 text-white uppercase text-sm">
             <tr>
               <th className="py-3 px-4 rounded-tl-2xl">SL.</th>
@@ -81,7 +77,6 @@ const MyContribution = () => {
             </tr>
           </thead>
 
-          {/* Table Body */}
           <tbody>
             {myContribution.map((item, index) => (
               <tr
@@ -108,7 +103,6 @@ const MyContribution = () => {
           </tbody>
         </table>
 
-        {/* Empty State */}
         {myContribution.length === 0 && (
           <div className="text-center py-8 text-gray-500 dark:text-gray-400">
             No contributions found 💰

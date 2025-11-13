@@ -5,15 +5,14 @@ import LoadingSpinner from "../components/LoadingSpinner";
 import { useNavigation } from "react-router";
 
 const About = () => {
-    const { loading } = use(AuthContext);
-    const navigation = useNavigation()
-  if (loading||navigation.state === "loading") {
+  const { loading } = use(AuthContext);
+  const navigation = useNavigation();
+  if (loading || navigation.state === "loading") {
     return <LoadingSpinner></LoadingSpinner>;
   }
   return (
     <section className="py-20 bg-base-100">
       <div className="container mx-auto px-4 max-w-6xl">
-        {/* 1. Section Title (User's preferred Gradient Style) */}
         <div className="text-center mb-16">
           <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-800 dark:text-gray-200 relative inline-block">
             <span className="bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
@@ -27,17 +26,13 @@ const About = () => {
           </p>
         </div>
 
-        {/* 2. Content Layout (Two Columns - Image/Illustration on one side) */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Left Column: Visual/Illustration */}
           <div className="order-2 lg:order-1 p-6 rounded-xl bg-base-200 shadow-xl border border-base-300">
-            {/* Placeholder for an image or animation (e.g., Lottie file/React Awesome Reveal) */}
             <div className="w-full h-80 flex items-center justify-center text-primary/70 text-lg font-semibold">
               <img src="https://i.ibb.co.com/cK6hWYdW/image.jpg" alt="" />
             </div>
           </div>
 
-          {/* Right Column: Mission and Values */}
           <div className="order-1 lg:order-2">
             <h3 className="text-3xl font-bold text-base-content mb-6">
               Empowering Change, One Report at a Time.
@@ -50,7 +45,6 @@ const About = () => {
               property.
             </p>
 
-            {/* Key Values/Pillars */}
             <div className="space-y-6">
               <div className="flex items-start gap-4">
                 <Target className="w-6 h-6 text-success flex-shrink-0 mt-1" />

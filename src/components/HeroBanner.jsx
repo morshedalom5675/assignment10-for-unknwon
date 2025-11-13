@@ -69,7 +69,7 @@ const HeroBanner = () => {
 
   const [activeIndex, setActiveIndex] = useState(0);
 
-  // Auto-slide every 5 seconds
+ 
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % slides.length);

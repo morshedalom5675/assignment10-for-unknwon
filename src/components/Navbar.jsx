@@ -67,7 +67,6 @@ const Navbar = () => {
         <h2 className="text-2xl font-bold text-success">CleanTrack</h2>
       </div>
 
-      {/* Center Menu */}
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
           <li>
@@ -91,7 +90,6 @@ const Navbar = () => {
         </ul>
       </div>
 
-      {/* Right Side (User / Login) */}
       <div className="navbar-end">
         {/* theme toggle */}
         <label
@@ -173,7 +171,7 @@ const Navbar = () => {
               </div>
 
               <li className="mt-3">
-                <Link to="/profile">
+                <Link to="/">
                   <FaUser /> Profile
                 </Link>
               </li>
@@ -198,7 +196,6 @@ const Navbar = () => {
           <HashLoader size={25} color="#16a34a" />
         ) : (
           <>
-            {/* Login button */}
             <div className="flex items-center space-x-3">
               <Link
                 to="/register"

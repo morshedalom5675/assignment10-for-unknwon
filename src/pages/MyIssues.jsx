@@ -36,13 +36,13 @@ const MyIssues = () => {
     })
       .then((res) => res.json())
       .then(() => {
-        setSelectedIssue(null); // modal close
+        setSelectedIssue(null); 
         Swal.fire({
           title: "Your issue has been updated",
           icon: "success",
           draggable: true,
         });
-        // reload issues
+        
         fetch(
           `https://cleantrack-assignment-server.vercel.app/issue?email=${user.email}`
         )

@@ -78,7 +78,10 @@ const Register = () => {
               Full Name
             </label>
             <div className="relative">
-              <User size={18} className="absolute left-3 top-3 text-gray-400 dark:text-gray-500" />
+              <User
+                size={18}
+                className="absolute left-3 top-3 text-gray-400 dark:text-gray-500"
+              />
               <input
                 name="name"
                 type="text"
@@ -114,7 +117,10 @@ const Register = () => {
               Email Address
             </label>
             <div className="relative">
-              <Mail size={18} className="absolute left-3 top-3 text-gray-400 dark:text-gray-500" />
+              <Mail
+                size={18}
+                className="absolute left-3 top-3 text-gray-400 dark:text-gray-500"
+              />
               <input
                 name="email"
                 type="email"
@@ -131,7 +137,10 @@ const Register = () => {
               Password
             </label>
             <div className="relative">
-              <Lock size={18} className="absolute left-3 top-3 text-gray-400 dark:text-gray-500" />
+              <Lock
+                size={18}
+                className="absolute left-3 top-3 text-gray-400 dark:text-gray-500"
+              />
               <input
                 name="password"
                 type={showPassword ? "text" : "password"}
