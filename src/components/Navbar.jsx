@@ -3,12 +3,12 @@ import { FaGear, FaUser } from "react-icons/fa6";
 import { IoLogIn, IoLogOut } from "react-icons/io5";
 import { Link, NavLink } from "react-router";
 import { AuthContext } from "../context/AuthContext";
-import { Leaf } from "lucide-react";
+import { Leaf, LogIn, UserPlus } from "lucide-react";
 import { HashLoader } from "react-spinners";
 
 const Navbar = () => {
   const { user, signOutUser, loading } = use(AuthContext);
-  const [theme, setTheme] = useState(localStorage.getItem("theme")||"light");
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
 
   useEffect(() => {
     const html = document.querySelector("html");
@@ -205,12 +205,28 @@ const Navbar = () => {
         ) : (
           <>
             {/* Login button */}
-            <Link
-              to="/login"
-              className="ml-3 btn bg-green-500 hover:bg-green-600 text-white font-semibold btn-sm rounded-full shadow-lg transition-transform transform hover:scale-105"
-            >
-              <IoLogIn /> Login
-            </Link>
+            <div className="flex items-center space-x-3">
+              <Link
+                to="/register"
+                className="btn btn-sm btn-outline btn-success rounded-full 
+                           transition duration-300 shadow-sm 
+                           hover:shadow-lg hover:scale-[1.02] border-2"
+              >
+                    
+                    <UserPlus className="w-4 h-4" />
+                <span>Register</span>
+              </Link>
+
+              <Link
+                to="/login"
+                className="btn btn-sm btn-primary text-white rounded-full 
+                           transition duration-300 shadow-md 
+                           hover:shadow-lg hover:scale-105"
+              >
+                <LogIn className="w-4 h-4" />
+                <span>Login</span>
+              </Link>
+            </div>
           </>
         )}
       </div>
