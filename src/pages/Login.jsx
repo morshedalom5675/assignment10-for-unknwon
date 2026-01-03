@@ -47,11 +47,6 @@ const Login = () => {
       <div className="bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl shadow-xl rounded-2xl w-full max-w-md p-8 border border-gray-100 dark:border-gray-700">
         {/* Header */}
         <div className="text-center mb-6">
-          <img
-            src="https://cdn-icons-png.flaticon.com/512/7188/7188472.png"
-            alt="logo"
-            className="w-16 mx-auto mb-3"
-          />
           <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
             Login Your Account
           </h2>
