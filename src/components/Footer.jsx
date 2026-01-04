@@ -49,7 +49,7 @@ const Footer = () => {
             </li>
             <li>
               <Link
-                to="/addIssue"
+                to="/dashboard/addIssue"
                 className="hover:text-success transition"
               >
                 Report Issue

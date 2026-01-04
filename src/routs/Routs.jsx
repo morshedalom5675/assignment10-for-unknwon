@@ -13,6 +13,11 @@ import MyIssues from "../pages/MyIssues";
 import MyContribution from "../pages/MyContribution";
 import ErrorPage from "../pages/ErrorPage";
 import App from "../App";
+import DashboardLayout from "../layout/DashboardLayout";
+import Profile from "../components/Profile";
+import DashboardHome from "../components/DashboardHome";
+import Contact from "../components/Contact";
+import Process from "../components/Process";
 
 const router = createBrowserRouter([
   {
@@ -28,6 +33,14 @@ const router = createBrowserRouter([
       {
         path: "about",
         Component: About,
+      },
+      {
+        path: "process",
+        Component: Process,
+      },
+      {
+        path: "contact",
+        Component: Contact,
       },
 
       {
@@ -56,6 +69,20 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+    ],
+  },
+  {
+    path: "/dashboard",
+    element: (
+      <PrivateRoute>
+        <DashboardLayout></DashboardLayout>
+      </PrivateRoute>
+    ),
+    children: [
+      {
+        index: true,
+        Component: DashboardHome,
+      },
       {
         path: "myIssue",
         element: (
@@ -77,6 +104,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <ReportIssue></ReportIssue>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "profile",
+        element: (
+          <PrivateRoute>
+            <Profile></Profile>
           </PrivateRoute>
         ),
       },
